@@ -17,7 +17,7 @@ function TodoItem({id, title, complete, toggleTodo, deleteTodo}: TodoItemProps) 
                    defaultChecked={complete} onChange={e => toggleTodo(id, e.target.checked)}/>
             <label htmlFor={id}
                    className={"text-slate-100 cursor-pointer peer-checked:line-through peer-checked:text-slate-500"}>{title}</label>
-            <button className={"cursor-pointer"} onClick={()=>{deleteTodo(id)}}>delete</button>
+            <button className={"cursor-pointer text-red-200"} onClick={()=>{deleteTodo(id)}}>delete</button>
         </li>
     );
 }
