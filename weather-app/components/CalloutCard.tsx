@@ -11,14 +11,12 @@ type Props = {
 
 function CalloutCard(props: Props) {
     return (
-        <div>
-            <Callout
-                className={"mt-4"}
-                title={props.message}
-                icon={props.warning ? ExclamationIcon : CheckCircleIcon}
-                color={"red"}
-            />
-        </div>
+        <Callout
+            className={"mt-4"}
+            title={props.message}
+            icon={props.warning ? ExclamationIcon : CheckCircleIcon}
+            color={props.warning ? "red" : "green"}
+        />
     );
 }
 
