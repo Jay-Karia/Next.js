@@ -58,7 +58,7 @@ interface Hourly {
     wind_speed_80m: [number]
 }
 
-interface string {
+interface HourlyUnits {
     apparent_temperature: string
     dew_point_2m: string
     evapotranspiration: string

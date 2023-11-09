@@ -5,7 +5,7 @@ import {Card, Metric, Text} from "@tremor/react";
 
 type Props = {
     title: string,
-    value: string,
+    value: number | string,
     color?: Color,
 }
 

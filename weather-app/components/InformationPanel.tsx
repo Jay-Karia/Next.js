@@ -3,12 +3,14 @@ import React from 'react';
 import CityPicker from "@/components/CityPicker";
 import {SunIcon} from "@heroicons/react/solid";
 import {MoonIcon} from "@heroicons/react/solid";
+import weatherCodeToString from "@/lib/weatherCodeToString";
+import Image from "next/image"
 
 type Props = {
     city: string,
     lat: string,
     long: string,
-    // results: Root,
+    results: Root | any,
 }
 
 function InformationPanel(props: Props) {
@@ -55,11 +57,16 @@ function InformationPanel(props: Props) {
             <div>
                 <div>
                     {/* Image */}
+                    <Image
+                        src={`https://www.weatherbit.io/static/img/icons/${JSON.stringify(weatherCodeToString[props.results.current.weather_code].icon).replaceAll("\"", "")}.png`}
+                        alt={JSON.stringify(weatherCodeToString[props.results.current.weather_code].label).replaceAll("\"", "")}
+                        width={75}
+                        height={75}
 
+                    />
                     <div className={"flex items-center justify-start space-x-10"}>
-                        <p className={"text-5xl font-semibold"}>10</p>
-                        {/*<p>{props.results.current_weather.toFixed(1)}</p>*/}
-                        <p className={"text-left font-extralight text-lg"}>Sunny</p>
+                        <p className={"text-5xl font-semibold"}>{props.results.current.temperature_2m.toFixed((1))}</p>
+                        <p className={"text-left font-extralight text-lg"}>{JSON.stringify(weatherCodeToString[props.results.current.weather_code].label).replaceAll("\"", "")}</p>
                     </div>
                 </div>
             </div>
@@ -69,14 +76,14 @@ function InformationPanel(props: Props) {
                     <SunIcon className={"h-10 w-10 text-gray-400"}/>
                     <div className={"flex-1 flex justify-between items-center"}>
                         <p className={"font-extralight"}>Sunrise</p>
-                        <p className={"uppercase text-xl"}>12:00 PM</p>
+                        <p className={"uppercase text-xl"}>{new Date(props.results.daily.sunrise[0]).toLocaleString("en-GB", {hour: "numeric",minute:"numeric", hour12:true})}</p>
                     </div>
                 </div>
                 <div className={"flex items-center space-x-2 px-4 py-3 border border-[#6F90CD] rounded bg-[#405885]"}>
                     <MoonIcon className={"h-10 w-10 text-gray-400"}/>
                     <div className={"flex-1 flex justify-between items-center"}>
                         <p className={"font-extralight"}>Sunset</p>
-                        <p className={"uppercase text-xl"}>12:00 PM</p>
+                        <p className={"uppercase text-xl"}>{new Date(props.results.daily.sunset[0]).toLocaleString("en-GB", {hour: "numeric",minute:"numeric", hour12:true})}</p>
                     </div>
                 </div>
             </div>
