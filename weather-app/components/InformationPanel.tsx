@@ -1,5 +1,4 @@
 "use client"
-
 import React from 'react';
 import CityPicker from "@/components/CityPicker";
 import {SunIcon} from "@heroicons/react/solid";

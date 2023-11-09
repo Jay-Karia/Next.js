@@ -1,6 +1,6 @@
 import React from 'react';
-import {getClient} from "@/apollo-client";
-import fetchWeatherQueries from "@/graphql/queries/fetchWeatherQueries";
+// import {getClient} from "@/apollo-client";
+// import fetchWeatherQueries from "@/graphql/queries/fetchWeatherQueries";
 import CalloutCard from "@/components/CalloutCard";
 import StatsCard from "@/components/StatsCard";
 import InformationPanel from "@/components/InformationPanel";
@@ -14,7 +14,7 @@ type Props = {
 }
 
 async function WeatherPage(props: Props) {
-    const client = getClient();
+    // const client = getClient();
     // @ts-ignore
     // const {data} = await client.query({
     //     query: fetchWeatherQueries,
