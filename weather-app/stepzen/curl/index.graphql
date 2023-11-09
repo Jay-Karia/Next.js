@@ -8,7 +8,7 @@ type Current {
   showers: Int
   snowfall: Int
   temperature_2m: Float
-  time: DateTime
+  time: String
   weather_code: Int
   wind_direction_10m: Int
   wind_gusts_10m: Float
@@ -40,11 +40,11 @@ type Daily {
   rain_sum: [Int]
   showers_sum: [Int]
   snowfall_sum: [Int]
-  sunrise: [DateTime]
-  sunset: [DateTime]
+  sunrise: [String]
+  sunset: [String]
   temperature_2m_max: [Float]
   temperature_2m_min: [Float]
-  time: [Date]
+  time: [String]
   uv_index_clear_sky_max: [Float]
   uv_index_max: [Float]
   weather_code: [Int]
@@ -92,7 +92,7 @@ type Hourly {
   temperature_180m: [Float]
   temperature_2m: [Float]
   temperature_80m: [Float]
-  time: [DateTime]
+  time: [String]
   uv_index: [Float]
   uv_index_clear_sky: [Float]
   weather_code: [Int]
@@ -138,11 +138,11 @@ type Root {
   current: Current
   current_units: CurrentUnits
   daily: Daily
-  daily_units: DailyUnits
+  daily_units: String
   elevation: Int
   generationtime_ms: Float
   hourly: Hourly
-  hourly_units: HourlyUnits
+  hourly_units: String
   latitude: Float
   longitude: Float
   timezone: String

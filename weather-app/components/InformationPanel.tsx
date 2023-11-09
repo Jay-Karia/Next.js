@@ -65,7 +65,7 @@ function InformationPanel(props: Props) {
 
                     />
                     <div className={"flex items-center justify-start space-x-10"}>
-                        <p className={"text-5xl font-semibold"}>{props.results.current.temperature_2m.toFixed((1))}</p>
+                        <p className={"text-5xl font-semibold"}>{props.results.current.temperature_2m.toFixed((1)) + props.results.current_units.temperature_2m}</p>
                         <p className={"text-left font-extralight text-lg"}>{JSON.stringify(weatherCodeToString[props.results.current.weather_code].label).replaceAll("\"", "")}</p>
                     </div>
                 </div>
