@@ -1,0 +1,161 @@
+type Current {
+  apparent_temperature: Int
+  interval: Int
+  is_day: Int
+  precipitation: Int
+  rain: Int
+  relative_humidity_2m: Int
+  showers: Int
+  snowfall: Int
+  temperature_2m: Float
+  time: DateTime
+  weather_code: Int
+  wind_direction_10m: Int
+  wind_gusts_10m: Float
+  wind_speed_10m: Float
+}
+
+type CurrentUnits {
+  apparent_temperature: String
+  interval: String
+  is_day: String
+  precipitation: String
+  rain: String
+  relative_humidity_2m: String
+  showers: String
+  snowfall: String
+  temperature_2m: String
+  time: String
+  weather_code: String
+  wind_direction_10m: String
+  wind_gusts_10m: String
+  wind_speed_10m: String
+}
+
+type Daily {
+  apparent_temperature_max: [Float]
+  apparent_temperature_min: [Float]
+  precipitation_probability_max: [Int]
+  precipitation_sum: [Int]
+  rain_sum: [Int]
+  showers_sum: [Int]
+  snowfall_sum: [Int]
+  sunrise: [DateTime]
+  sunset: [DateTime]
+  temperature_2m_max: [Float]
+  temperature_2m_min: [Float]
+  time: [Date]
+  uv_index_clear_sky_max: [Float]
+  uv_index_max: [Float]
+  weather_code: [Int]
+  wind_gusts_10m_max: [Float]
+  wind_speed_10m_max: [Float]
+}
+
+type DailyUnits {
+  apparent_temperature_max: String
+  apparent_temperature_min: String
+  precipitation_probability_max: String
+  precipitation_sum: String
+  rain_sum: String
+  showers_sum: String
+  snowfall_sum: String
+  sunrise: String
+  sunset: String
+  temperature_2m_max: String
+  temperature_2m_min: String
+  time: String
+  uv_index_clear_sky_max: String
+  uv_index_max: String
+  weather_code: String
+  wind_gusts_10m_max: String
+  wind_speed_10m_max: String
+}
+
+type Hourly {
+  apparent_temperature: [Float]
+  dew_point_2m: [Float]
+  evapotranspiration: [Float]
+  is_day: [Int]
+  precipitation: [Int]
+  precipitation_probability: [Int]
+  pressure_msl: [Float]
+  rain: [Int]
+  relative_humidity_2m: [Int]
+  showers: [Int]
+  snow_depth: [Int]
+  snowfall: [Int]
+  soil_temperature_0cm: [Float]
+  soil_temperature_6cm: [Float]
+  surface_pressure: [Float]
+  temperature_120m: [Float]
+  temperature_180m: [Float]
+  temperature_2m: [Float]
+  temperature_80m: [Float]
+  time: [DateTime]
+  uv_index: [Float]
+  uv_index_clear_sky: [Float]
+  weather_code: [Int]
+  wind_direction_180m: [Int]
+  wind_gusts_10m: [Float]
+  wind_speed_10m: [Float]
+  wind_speed_120m: [Float]
+  wind_speed_80m: [Float]
+}
+
+type HourlyUnits {
+  apparent_temperature: String
+  dew_point_2m: String
+  evapotranspiration: String
+  is_day: String
+  precipitation: String
+  precipitation_probability: String
+  pressure_msl: String
+  rain: String
+  relative_humidity_2m: String
+  showers: String
+  snow_depth: String
+  snowfall: String
+  soil_temperature_0cm: String
+  soil_temperature_6cm: String
+  surface_pressure: String
+  temperature_120m: String
+  temperature_180m: String
+  temperature_2m: String
+  temperature_80m: String
+  time: String
+  uv_index: String
+  uv_index_clear_sky: String
+  weather_code: String
+  wind_direction_180m: String
+  wind_gusts_10m: String
+  wind_speed_10m: String
+  wind_speed_120m: String
+  wind_speed_80m: String
+}
+
+type Root {
+  current: Current
+  current_units: CurrentUnits
+  daily: Daily
+  daily_units: DailyUnits
+  elevation: Int
+  generationtime_ms: Float
+  hourly: Hourly
+  hourly_units: HourlyUnits
+  latitude: Float
+  longitude: Float
+  timezone: String
+  timezone_abbreviation: String
+  utc_offset_seconds: Int
+}
+
+type Query {
+  myQuery(
+    current: String
+    daily: String
+    hourly: String
+    latitude: String
+    longitude: String
+  ): Root @rest(endpoint: "https://api.open-meteo.com/v1/forecast")
+}

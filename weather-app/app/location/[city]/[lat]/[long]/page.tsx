@@ -3,6 +3,7 @@ import {getClient} from "@/apollo-client";
 import fetchWeatherQueries from "@/graphql/queries/fetchWeatherQueries";
 import CalloutCard from "@/components/CalloutCard";
 import StatsCard from "@/components/StatsCard";
+import InformationPanel from "@/components/InformationPanel";
 
 type Props = {
     params: {
@@ -13,23 +14,23 @@ type Props = {
 }
 
 async function WeatherPage(props: Props) {
-    // const client = getClient();
+    const client = getClient();
+    // @ts-ignore
     // const {data} = await client.query({
     //     query: fetchWeatherQueries,
     //     variables: {
     //         city: props.params.city,
     //         lat: props.params.lat,
     //         long: props.params.long
-    //     }
-    // });
+    //     },
     //
-    // const results:Root = data.myQuery
-    // console.log(results)
+    // });
 
     return (
-        <div>
+        <div className={"flex flex-col min-h-screen md:flex-row"}>
             {/* Information Panel */}
-            <div>
+            <InformationPanel city={props.params.city} lat={props.params.lat} long={props.params.long}/>
+            <div className={"flex-1 p-5 lg:p-10"}>
                 <div className={"p-5"}>
                     <div className={"pb-5"}>
                         <h2 className={"text-xl font-bold"}>{"Today's Overview"}</h2>
