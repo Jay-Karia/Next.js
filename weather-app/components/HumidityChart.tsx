@@ -3,11 +3,13 @@ import React from 'react';
 import {AreaChart, Card, Title} from "@tremor/react";
 
 type Props = {
-    results: Root
+    results: Root | any
 }
 
 function HumidityChart({results}:Props) {
+    // @ts-ignore
     const hourly = results?.hourly?.time.map(time => new Date(time).toLocaleString('en-US', {hour: 'numeric', hour12: true})).slice(0, 24)
+    // @ts-ignore
     const data = hourly?.map((hour, i)=> ({
         time: hourly[i],
         "Humidity (%)": results.hourly.relative_humidity_2m[i],

@@ -3,11 +3,13 @@ import React from 'react';
 import {Card, AreaChart, Title} from "@tremor/react";
 
 type Props = {
-    results: Root
+    results: Root | any
 }
 
 function TempChart({results}: Props) {
+    // @ts-ignore
     const hourly = results?.hourly?.time.map(time => new Date(time).toLocaleString('en-US', {hour: 'numeric', hour12: true})).slice(0, 24)
+    // @ts-ignore
     const data = hourly?.map((hour, i)=> ({
         time: hourly[i],
         "Temperature (C)": results.hourly.temperature_2m[i],
