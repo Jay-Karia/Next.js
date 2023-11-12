@@ -29,7 +29,6 @@ async function WeatherPage(props: Props) {
         })
 
     const data_to_send = cleanData(results, props.params.city)
-    console.log(data_to_send)
     // const res = await fetch(`${getBasePath()}/api/getWeatherSummary`, {
     //     method: 'POST',
     //     headers: {
