@@ -29,6 +29,8 @@ async function WeatherPage(props: Props) {
         })
 
     const data_to_send = cleanData(results, props.params.city)
+
+    // ChatGPT
     // const res = await fetch(`${getBasePath()}/api/getWeatherSummary`, {
     //     method: 'POST',
     //     headers: {
