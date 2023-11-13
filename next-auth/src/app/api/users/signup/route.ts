@@ -14,12 +14,12 @@ connect().then(async () => {
 export async function POST(request: NextRequest) {
     try {
         const body = await request.json();
-        const {username, email, password} = body
+        const {username, email, password} = body.body
 
         // check if the user exists
         const user = await User.findOne({email: email})
         if (user) {
-            return NextResponse.json({msg: "User already exists"}, {status: 400})
+            return NextResponse.json({msg: "User already exists"}, {status: 200})
         }
 
         // hash the password
@@ -35,11 +35,12 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({
             msg: "User created successfully",
             status: 200,
-            savedUser: savedUser
+            savedUser: savedUser,
+            success: true
         })
 
 
     } catch (error: any) {
-        return NextResponse.json({msg: error.message}, {status: 400})
+        return NextResponse.json({msg: error.message , success: false}, {status: 200})
     }
 }

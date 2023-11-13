@@ -27,6 +27,8 @@ function SignUpPage() {
                 setLoading(true)
                 const res = await axios.post("/api/users/signup", {body: formData})
                 alert(res.data.msg)
+                if (res.data.success === true)
+                    router.push("/profile")
 
             } catch (error: any) {
                 console.log("Sign Up Error", error)

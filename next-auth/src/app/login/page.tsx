@@ -27,6 +27,10 @@ function LoginPage() {
                 setLoading(true)
                 const res = await axios.post("/api/users/login", {body: formData})
                 alert(res.data.msg)
+
+                if (res.data.success === true)
+                    router.push("/profile")
+
             } catch (error: any) {
                 console.log("Login Error", error)
                 toast.error(error.message)
