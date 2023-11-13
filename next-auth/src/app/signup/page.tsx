@@ -3,7 +3,7 @@ import React, {useState, useEffect} from 'react';
 import Link from "next/link"
 import {useRouter} from "next/navigation"
 import axios from "axios"
-import Image from "next/image"
+import {toast} from "react-hot-toast"
 
 function SignUpPage() {
     const router = useRouter()
@@ -19,11 +19,21 @@ function SignUpPage() {
         setFormData({...formData, [e.target.name]: e.target.value});
     };
 
-    const handleSubmit = async (e:any) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault();
         if (buttonAllow) {
-            setLoading(true)
-            alert("Sign Up Successful")
+            // signing up
+            try {
+                setLoading(true)
+                const res = await axios.post("/api/users/signup", {body: formData})
+                alert(res.data.msg)
+
+            } catch (error: any) {
+                console.log("Sign Up Error", error)
+                toast.error(error.message)
+            } finally {
+                setLoading(false)
+            }
         } else {
             alert("Please fill in all the fields")
         }

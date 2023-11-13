@@ -2,6 +2,8 @@
 import React, {useEffect, useState} from 'react';
 import Link from "next/link"
 import {useRouter} from "next/navigation"
+import axios from "axios";
+import {toast} from "react-hot-toast";
 
 function LoginPage() {
     const router = useRouter()
@@ -17,11 +19,20 @@ function LoginPage() {
         setFormData({...formData, [e.target.name]: e.target.value});
     };
 
-    const handleSubmit = (e: any) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault();
         if (buttonAllow) {
-            setLoading(true)
-            alert("Sign Up Successful")
+            // logging in
+            try {
+                setLoading(true)
+                const res = await axios.post("/api/users/login", {body: formData})
+                alert(res.data.msg)
+            } catch (error: any) {
+                console.log("Login Error", error)
+                toast.error(error.message)
+            } finally {
+                setLoading(false)
+            }
         } else {
             alert("Please fill in all the fields")
         }
