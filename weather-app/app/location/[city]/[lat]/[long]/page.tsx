@@ -30,7 +30,7 @@ async function WeatherPage(props: Props) {
 
     let weatherSummary: string = "";
     const generateWeatherSummary = async () => {
-        const prompt = "Today\'s weather in " + props.params.city + ` is ${JSON.stringify(weatherCodeToString[results.current.weather_code].label).replaceAll("\"", "")}` +  "The temperature is " + results.current.temperature_2m + " degrees celsius. The humidity is " + results.current.relative_humidity_2m + " percent. The wind speed is " + results.current.wind_speed_10m + " meters per second. The wind direction is " + results.current.wind_direction_10m + " degrees. The UV index is " + results.current.uv_index + "."
+        const prompt = "Today\'s weather in " + props.params.city.replace("%20", " ") + ` is ${JSON.stringify(weatherCodeToString[results.current.weather_code].label).replaceAll("\"", "")}` +  "The temperature is " + results.current.temperature_2m + " degrees celsius. The humidity is " + results.current.relative_humidity_2m + " percent. The wind speed is " + results.current.wind_speed_10m + " meters per second. The wind direction is " + results.current.wind_direction_10m + " degrees. The UV index is " + results.current.uv_index + "."
 
         try {
             const options = {
