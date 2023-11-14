@@ -6,8 +6,8 @@ import TempChart from "@/components/TempChart";
 import RainChart from "@/components/RainChart";
 import HumidityChart from "@/components/HumidityChart";
 import WindChart from "@/components/WindChart";
-import cleanData from "@/lib/cleanData";
-import getBasePath from "@/lib/getBasePath";
+import axios from 'axios'
+import weatherCodeToString from "@/lib/weatherCodeToString";
 
 type Props = {
     params: {
@@ -28,18 +28,34 @@ async function WeatherPage(props: Props) {
             results = data
         })
 
-    const data_to_send = cleanData(results, props.params.city)
+    let weatherSummary: string = "";
+    const generateWeatherSummary = async () => {
+        const prompt = "Today\'s weather in " + props.params.city + ` is ${JSON.stringify(weatherCodeToString[results.current.weather_code].label).replaceAll("\"", "")}` +  "The temperature is " + results.current.temperature_2m + " degrees celsius. The humidity is " + results.current.relative_humidity_2m + " percent. The wind speed is " + results.current.wind_speed_10m + " meters per second. The wind direction is " + results.current.wind_direction_10m + " degrees. The UV index is " + results.current.uv_index + "."
 
-    // ChatGPT
-    // const res = await fetch(`${getBasePath()}/api/getWeatherSummary`, {
-    //     method: 'POST',
-    //     headers: {
-    //         'Content-Type': 'application/json'
-    //     } ,
-    //     body: JSON.stringify(data_to_send)
-    // })
-    // const GPTData = await res.json()
+        try {
+            const options = {
+                method: 'POST',
+                url: 'https://tldrthis.p.rapidapi.com/v1/model/abstractive/summarize-text/',
+                headers: {
+                    'content-type': 'application/json',
+                    'X-RapidAPI-Key': process.env.API_KEY,
+                    'X-RapidAPI-Host': 'tldrthis.p.rapidapi.com'
+                },
+                data: {
+                    text: prompt,
+                    min_length: 200,
+                    max_length: 300
+                }
+            };
+            const response = await axios.request(options);
+            weatherSummary = response.data.summary
+        } catch (error) {
+            weatherSummary = "Unable to generate weather summary"
+            console.error(error);
+        }
+    };
 
+    await generateWeatherSummary();
 
     // @ts-ignore
     return (
@@ -59,7 +75,7 @@ async function WeatherPage(props: Props) {
 
                     {/*Callout Card*/}
                     <div className={"m-3 mb-10"}>
-                        <CalloutCard message={"testing"} warning={false}/>
+                        <CalloutCard message={weatherSummary} warning={false}/>
                     </div>
 
                     {/*Stats Cards*/}

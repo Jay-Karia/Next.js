@@ -1,17 +1,27 @@
-import {NextResponse} from 'next/server'
-import openai from '@/openai'
+import OpenAI from 'openai';
 
-export async function POST(request: Request) {
-    const {weatherData} = await request.json()
-    const response = await openai.chat.completions.create({
-        model: "gpt-3.5-turbo",
-        temperature: 0.9,
-        n: 1,
-        stream: false,
-        messages: [{ role: 'system', content: 'Pretend you are a weather reported and generate a weather report summary'}, { role: 'user', content: `I there can I get a summary of today\'s weather, use the following information to get the weather data: ${JSON.stringify(weatherData)}` }]
-    })
+// @ts-ignore
+const openai = new OpenAI({ key: process.env.OPENAI_API_KEY });
 
-    const {object} = response
-    console.log("data: " + object)
-    return NextResponse.json(object)
-}
+const generateWeatherSummary = async (city: string): Promise<string> => {
+    const prompt = `Generate a weather summary for ${city} for today.`;
+
+    try {
+        // @ts-ignore
+        const response = await openai.create('text-davinci-003', {
+            prompt,
+            max_tokens: 100,
+        });
+
+        return response.data.choices[0]?.text?.trim() || 'Unable to generate a weather summary.';
+    } catch (error) {
+        console.error('Error generating weather summary:', error);
+        return 'Error generating weather summary.';
+    }
+};
+
+// Example usage
+const city = 'New York';
+generateWeatherSummary(city).then((summary) => {
+    console.log('Weather Summary:', summary);
+});
