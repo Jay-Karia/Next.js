@@ -18,7 +18,7 @@ function TempChart({results}: Props) {
 
     return (
         <div>
-            <Card>
+            <Card className='bg-white'>
                 <Title>Temperature</Title>
                 <AreaChart
                     className={"mt-6"}
