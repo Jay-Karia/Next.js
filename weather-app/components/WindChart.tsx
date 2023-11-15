@@ -17,7 +17,7 @@ function WindChart({results}: Props) {
     }))
     return (
         <div>
-            <Card>
+            <Card className="bg-white">
                 <Title>Wind Speed</Title>
                 <AreaChart
                     className={"mt-6"}

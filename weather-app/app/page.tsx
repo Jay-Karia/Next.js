@@ -6,8 +6,8 @@ import "./home.css"
 export default function Home() {
   return (
       <div className={"min-h-screen bg-gradient-to-br from-[#394F68] to-[#183B7E] p-10 flex flex-col justify-center items-center "}>
-            <Card className={"max-w-3xl mx-auto"}>
-                <Text className={"font-bold text-center mb-10 title text-6xl"} >Weather App <span className={"text-white p-2 pt-0 pb-0"} style={{borderRadius: "7px", background: "linear-gradient(rgb(62 57 127), #771677)", lineHeight: "normal"}}>AI</span></Text>
+            <Card style={{background:"white"}} className={"max-w-3xl mx-auto"}>
+                <Text className={"font-bold text-center mb-10 title"} ><span style={{fontSize:"3rem"}}>Weather App</span> <span className={"text-white p-2 pt-0 pb-0"} style={{borderRadius: "7px", background: "linear-gradient(rgb(62 57 127), #771677)", lineHeight: "7rem", fontSize: "3rem"}}>AI</span></Text>
                 <Subtitle className={"text-xl text-center subtitle"}>
                     Powered by <b>OpenAI</b>, <b>Next.js 13.3</b>, <b>Tailwind CSS</b>, and more...
                 </Subtitle>

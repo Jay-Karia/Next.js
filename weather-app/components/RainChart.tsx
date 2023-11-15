@@ -17,7 +17,7 @@ function RainChart({results}:Props) {
 
     return (
         <div>
-            <Card>
+            <Card className='bg-white'>
                 <Title>Possibility of Rain</Title>
                 <AreaChart
                     className={"mt-6"}

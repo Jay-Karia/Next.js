@@ -16,7 +16,7 @@ function HumidityChart({results}:Props) {
     }))
     return (
         <div>
-            <Card>
+            <Card className="bg-white">
                 <Title>Relative Humidity</Title>
                 <AreaChart
                     className={"mt-6"}
