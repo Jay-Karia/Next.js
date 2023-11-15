@@ -1,9 +1,13 @@
 import React from 'react';
+import {Button} from '@radix-ui/themes';
+import Link from 'next/link';
 
 function IssuesPage() {
     return (
         <div>
-            Issues Page
+            <Button style={{marginTop: "1rem"}}>
+                <Link href={"/issues/new"}>New Issue</Link>
+            </Button>
         </div>
     );
 }
