@@ -5,7 +5,7 @@ import Link from 'next/link';
 function IssuesPage() {
     return (
         <div>
-            <Button style={{marginTop: "1rem"}}>
+            <Button>
                 <Link href={"/issues/new"}>New Issue</Link>
             </Button>
         </div>
