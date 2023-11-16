@@ -4,6 +4,8 @@ import Link from 'next/link';
 import prisma from "@/prisma/client";
 import {Table} from "@radix-ui/themes"
 import StatusBadge from '../components/StatusBadge';
+import IssueActions from '../components/IssueActions';
+import delay from "delay"
 
 async function IssuesPage() {
 
@@ -11,11 +13,7 @@ async function IssuesPage() {
 
     return (
         <div>
-            <div className={"mb-5"}>
-                <Button>
-                    <Link href={"/issues/new"}>New Issue</Link>
-                </Button>
-            </div>
+           <IssueActions />
             <Table.Root variant='surface'>
                 <Table.Header>
                     <Table.Row>
