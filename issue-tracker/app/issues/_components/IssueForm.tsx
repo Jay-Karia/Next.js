@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { issueSchema } from "@/app/validationSchemas";
 import { z } from "zod";
 import axios from "axios";
-import { TextField, Button, Callout } from "@radix-ui/themes";
+import { TextField, Button, Callout, Text } from "@radix-ui/themes";
 import "easymde/dist/easymde.min.css";
 import ErrorMessage from "@/app/components/ErrorMessage";
 import Spinner from "@/app/components/Spinner";
@@ -70,7 +70,9 @@ async function IssueForm({ issue }: { issue: Issue }) {
                     control={control}
                 />
                 <ErrorMessage>{errors.description?.message}</ErrorMessage>
-                here
+                <div>
+                    <Text>Status</Text>
+                </div>
                 <Button disabled={loading} style={{ marginTop: "1rem" }}>
                     {issue ? "Update Issue" : "Create New Issue"}{" "}
                     {loading && <Spinner />}
