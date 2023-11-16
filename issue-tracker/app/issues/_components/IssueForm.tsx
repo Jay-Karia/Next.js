@@ -10,14 +10,10 @@ import { TextField, Button, Callout } from "@radix-ui/themes";
 import "easymde/dist/easymde.min.css";
 import ErrorMessage from "@/app/components/ErrorMessage";
 import Spinner from "@/app/components/Spinner";
-import dynamic from "next/dynamic";
 import { Issue } from "@prisma/client";
+import SimpleMDE from "react-simplemde-editor";
 
 type IssueFormData = z.infer<typeof issueSchema>;
-
-const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
-    ssr: false,
-});
 
 async function IssueForm({ issue }: { issue: Issue }) {
     const [loading, setLoading] = useState(false);
@@ -42,6 +38,7 @@ async function IssueForm({ issue }: { issue: Issue }) {
                 await axios.post("/api/issues", data);
             }
             router.push("/issues");
+            router.refresh();
         } catch (error) {
             setLoading(false);
             setError(`An error occurred while ${issue ? "updating": "creating"} the issue.`);
@@ -73,6 +70,7 @@ async function IssueForm({ issue }: { issue: Issue }) {
                     control={control}
                 />
                 <ErrorMessage>{errors.description?.message}</ErrorMessage>
+                here
                 <Button disabled={loading} style={{ marginTop: "1rem" }}>
                     {issue ? "Update Issue" : "Create New Issue"}{" "}
                     {loading && <Spinner />}
