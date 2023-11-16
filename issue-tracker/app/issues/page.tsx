@@ -26,7 +26,7 @@ async function IssuesPage() {
                     {issues.map((issue) => (
                         <Table.Row key={issue.id}>
                             <Table.Cell>
-                                {issue.title}
+                                <Link href={`issues/${issue.id}`} className="hover:cursor-pointer">{issue.title}</Link>
                                 <div className="block md:hidden">
                                     <StatusBadge status={issue.status} />
                                 </div>
