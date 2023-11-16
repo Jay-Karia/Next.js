@@ -2,7 +2,7 @@ import {NextRequest, NextResponse} from "next/server";
 import client from "@/prisma/client";
 import {issueSchema} from "@/app/validationSchemas";
 
-export async function POST(request: NextRequest) {
+export async function PATCH(request: NextRequest, { params }: {params: {id: string}}) {
     try {
         const body = await request.json();
         const {title, description} = body;
@@ -12,14 +12,26 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({message: "Invalid data", errors: valid.error.format(), success: false}, {status: 400});
         }
 
-        const newIssue = await client.issue.create({
+        const issue = await client.issue.findUnique({
+            where: {
+                id: Number(params.id)
+            }
+        });
+        if (!issue) {
+            return NextResponse.json({message: "Issue not found", success: false}, {status: 404});
+        }
+
+        const updatedIssue = await client.issue.update({
+            where: {
+                id: Number(params.id)
+            },
             data: {
                 title,
                 description,
             }
         })
 
-        return NextResponse.json({message: "Issue created", data: newIssue, success: true}, {status: 200});
+        return NextResponse.json({message: "Issue updated", success: true, issue: updatedIssue}, {status: 200});
     } catch (error:any) {
         return NextResponse.json({message: "Something went wrong", error: error.message, success: false}, {status: 500});
     }
