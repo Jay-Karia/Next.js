@@ -7,6 +7,8 @@ import { Heading, Text, Flex, Card, Grid, Box, Button } from "@radix-ui/themes";
 import ReactMarkdown from "react-markdown";
 import Link from "next/link";
 import { Pencil2Icon } from '@radix-ui/react-icons'
+import EditIssueButton from "./EditIssueButton";
+import IssueDetails from "./IssueDetails";
 
 type Props = {
     params: {
@@ -35,22 +37,10 @@ async function IssueDetailPage({ params }: Props) {
     return (
         <Grid columns="1" gap="5">
             <Box>
-                <Heading weight={"bold"}>{issue.title}</Heading>
-                <Flex className={"flex space-x-3 mt-2"}>
-                    <StatusBadge status={issue.status as Status} />
-                    <Text weight={"light"}>
-                        {issue.createdAt.toDateString()}
-                    </Text>
-                </Flex>
-                <Card className="prose" mt="4">
-                    <ReactMarkdown>{issue.description}</ReactMarkdown>
-                </Card>
+                <IssueDetails issue={issue}/>
             </Box>
             <Box>
-                <Button>
-                    <Pencil2Icon />
-                    <Link href={`/issues/${issue.id}/edit`}>Edit Issue</Link>
-                </Button>
+                <EditIssueButton issueId={issue.id} />
             </Box>
         </Grid>
     );
