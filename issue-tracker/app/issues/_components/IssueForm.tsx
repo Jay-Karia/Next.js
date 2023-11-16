@@ -36,11 +36,15 @@ async function IssueForm({ issue }: { issue: Issue }) {
     const onSubmit = handleSubmit(async (data) => {
         try {
             setLoading(true);
-            await axios.post("/api/issues", data);
+            if (issue) {
+                await axios.patch("/api/issues/" + issue.id, data);
+            } else {
+                await axios.post("/api/issues", data);
+            }
             router.push("/issues");
         } catch (error) {
             setLoading(false);
-            setError("An error occurred while creating the issue.");
+            setError(`An error occurred while ${issue ? "updating": "creating"} the issue.`);
         }
     });
 
@@ -70,7 +74,8 @@ async function IssueForm({ issue }: { issue: Issue }) {
                 />
                 <ErrorMessage>{errors.description?.message}</ErrorMessage>
                 <Button disabled={loading} style={{ marginTop: "1rem" }}>
-                    Create New Issue {loading && <Spinner />}
+                    {issue ? "Update Issue" : "Create New Issue"}{" "}
+                    {loading && <Spinner />}
                 </Button>
             </form>
         </div>
