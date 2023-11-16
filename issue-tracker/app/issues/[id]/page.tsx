@@ -1,9 +1,10 @@
 import React from "react";
 import prisma from "@/prisma/client";
 import { notFound } from "next/navigation";
-import { Grid, Box} from "@radix-ui/themes";
+import { Grid, Box, Flex } from "@radix-ui/themes";
 import EditIssueButton from "./EditIssueButton";
 import IssueDetails from "./IssueDetails";
+import DeleteIssueButton from "./DeleteIssueButton";
 
 type Props = {
     params: {
@@ -31,11 +32,14 @@ async function IssueDetailPage({ params }: Props) {
 
     return (
         <Grid columns="1" gap="5">
-            <Box>
-                <IssueDetails issue={issue}/>
+            <Box className="md:col-span-4">
+                <IssueDetails issue={issue} />
             </Box>
             <Box>
-                <EditIssueButton issueId={issue.id} />
+                <Flex gap="4" className={"sm:flex-row flex-col"}>
+                    <EditIssueButton issueId={issue.id} />
+                    <DeleteIssueButton issueId={issue.id} />
+                </Flex>
             </Box>
         </Grid>
     );
