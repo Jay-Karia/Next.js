@@ -1,22 +1,38 @@
 "use client";
+
+// React and Next and Other
 import React, { useState } from "react";
+import { useForm, Controller } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { createIssueSchema } from "@/app/validationSchemas";
+import { z } from "zod";
+import axios from "axios";
+
+// Radix UI
 import { TextField, Button, Callout, Text } from "@radix-ui/themes";
+
+// React SimpleMDE
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
-import { useForm, Controller } from "react-hook-form";
-import axios from "axios";
-import { useRouter } from "next/navigation";
-import {zodResolver} from "@hookform/resolvers/zod"
-import {createIssueSchema} from "@/app/validationSchemas";
-import {z} from "zod"
-import ErrorMessage from "@/app/components/ErrorMessage"
+
+// Components
+import ErrorMessage from "@/app/components/ErrorMessage";
+import Spinner from "@/app/components/Spinner";
 
 type IssueForm = z.infer<typeof createIssueSchema>;
 
 function NewIssuesPage() {
+    const [loading, setLoading] = useState(false);
+
     const [error, setError] = useState("");
     const router = useRouter();
-    const { register, handleSubmit, control, formState: {errors} } = useForm<IssueForm>({
+    const {
+        register,
+        handleSubmit,
+        control,
+        formState: { errors },
+    } = useForm<IssueForm>({
         resolver: zodResolver(createIssueSchema),
     });
 
@@ -30,12 +46,14 @@ function NewIssuesPage() {
             <form
                 className={"max-w-xl space-y-3"}
                 onSubmit={handleSubmit(async (data) => {
+                    setLoading(true);
                     try {
                         await axios.post("/api/issues", data);
                         router.push("/issues");
                     } catch (error) {
                         setError("An error occurred while creating the issue.");
                     }
+                    setLoading(false);
                 })}
             >
                 <TextField.Root>
@@ -53,11 +71,10 @@ function NewIssuesPage() {
                     control={control}
                 />
                 <ErrorMessage>{errors.description?.message}</ErrorMessage>
-                <Button style={{ marginTop: "1rem" }}>Create New Issue</Button>
+                <Button disabled={loading} style={{ marginTop: "1rem" }}>Create New Issue {loading && <Spinner />}</Button>
             </form>
         </div>
     );
 }
 
 export default NewIssuesPage;
-
