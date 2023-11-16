@@ -1,4 +1,7 @@
-import React from 'react'
+import React from "react";
+import IssueForm from "../../_components/IssueForm";
+import prisma from "@/prisma/client";
+import { notFound } from "next/navigation";
 
 type Props = {
     params: {
@@ -6,10 +9,29 @@ type Props = {
     };
 };
 
-const IssueEditPage = ({params}: Props) => {
-  return (
-    <div>IssueEditPage for issue # {params.id}</div>
-  )
-}
+async function IssueEditPage ({ params }: Props) {
+    const { id } = params;
+    let issue;
 
-export default IssueEditPage
+    try {
+       issue = await prisma.issue.findUnique({
+            where: {
+                id: Number(id),
+            },
+        });
+
+        if (!issue) {
+            throw new Error("Issue not found");
+        }
+    } catch (error) {
+        notFound();
+    }
+
+    return (
+        <div>
+            <IssueForm issue={issue} />
+        </div>
+    );
+};
+
+export default IssueEditPage;
