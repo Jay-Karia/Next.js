@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { Status } from "@prisma/client";
 import StatusBadge from "@/app/components/StatusBadge";
 import { Heading, Text, Flex, Card } from "@radix-ui/themes";
+import ReactMarkdown from "react-markdown";
 
 type Props = {
     params: {
@@ -25,10 +26,8 @@ async function IssueDetailPage({ params }: Props) {
         if (!issue) {
             throw new Error("Issue not found"); // Throw an error to trigger the 404 page
         }
-
-        console.log(issue);
     } catch (error) {
-        notFound(); // Call notFound when an error occurs
+        notFound();
     }
 
     return (
@@ -38,8 +37,8 @@ async function IssueDetailPage({ params }: Props) {
                 <StatusBadge status={issue.status as Status} />
                 <Text weight={"light"}>{issue.createdAt.toDateString()}</Text>
             </Flex>
-            <Card className="mt-2">
-                <Text>{issue.description}</Text>
+            <Card className="prose" mt="4">
+                <ReactMarkdown>{issue.description}</ReactMarkdown>
             </Card>
         </div>
     );
