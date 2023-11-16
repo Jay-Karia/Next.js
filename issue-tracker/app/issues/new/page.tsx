@@ -36,6 +36,17 @@ function NewIssuesPage() {
         resolver: zodResolver(createIssueSchema),
     });
 
+    const onSubmit = handleSubmit(async (data) => {
+        try {
+            setLoading(true);
+            await axios.post("/api/issues", data);
+            router.push("/issues");
+        } catch (error) {
+            setLoading(false);
+            setError("An error occurred while creating the issue.");
+        }
+    });
+
     return (
         <div className="space-y-3">
             {error.length > 0 ? (
@@ -43,19 +54,7 @@ function NewIssuesPage() {
                     <Callout.Text>{error}</Callout.Text>
                 </Callout.Root>
             ) : null}
-            <form
-                className={"max-w-xl space-y-3"}
-                onSubmit={handleSubmit(async (data) => {
-                    setLoading(true);
-                    try {
-                        await axios.post("/api/issues", data);
-                        router.push("/issues");
-                    } catch (error) {
-                        setError("An error occurred while creating the issue.");
-                    }
-                    setLoading(false);
-                })}
-            >
+            <form className={"max-w-xl space-y-3"} onSubmit={onSubmit}>
                 <TextField.Root>
                     <TextField.Input
                         placeholder="Title"
@@ -71,7 +70,9 @@ function NewIssuesPage() {
                     control={control}
                 />
                 <ErrorMessage>{errors.description?.message}</ErrorMessage>
-                <Button disabled={loading} style={{ marginTop: "1rem" }}>Create New Issue {loading && <Spinner />}</Button>
+                <Button disabled={loading} style={{ marginTop: "1rem" }}>
+                    Create New Issue {loading && <Spinner />}
+                </Button>
             </form>
         </div>
     );
