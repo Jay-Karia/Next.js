@@ -24,7 +24,7 @@ async function IssueDetailPage({ params }: Props) {
         });
 
         if (!issue) {
-            throw new Error("Issue not found"); // Throw an error to trigger the 404 page
+            throw new Error("Issue not found");
         }
     } catch (error) {
         notFound();
