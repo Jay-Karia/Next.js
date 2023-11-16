@@ -14,9 +14,9 @@ import dynamic from "next/dynamic";
 
 type IssueForm = z.infer<typeof createIssueSchema>;
 
-const SimpleMDE = dynamic(
-    () => import("react-simplemde-editor"), { ssr: false }
-);
+const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
+    ssr: false,
+});
 
 async function NewIssuesPage() {
     const [loading, setLoading] = useState(false);
