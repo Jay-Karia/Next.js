@@ -5,6 +5,7 @@ import { Status } from "@prisma/client";
 import StatusBadge from "@/app/components/StatusBadge";
 import { Heading, Text, Flex, Card } from "@radix-ui/themes";
 import ReactMarkdown from "react-markdown";
+import delay from 'delay';
 
 type Props = {
     params: {

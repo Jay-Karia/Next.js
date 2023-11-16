@@ -6,23 +6,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { createIssueSchema } from "@/app/validationSchemas";
 import { z } from "zod";
 import axios from "axios";
-
-// Radix UI
-import { TextField, Button, Callout, Text } from "@radix-ui/themes";
-
-// React SimpleMDE
+import { TextField, Button, Callout} from "@radix-ui/themes";
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
-
-// Components
 import ErrorMessage from "@/app/components/ErrorMessage";
 import Spinner from "@/app/components/Spinner";
 
 type IssueForm = z.infer<typeof createIssueSchema>;
 
-function NewIssuesPage() {
+async function NewIssuesPage() {
     const [loading, setLoading] = useState(false);
-
+    
     const [error, setError] = useState("");
     const router = useRouter();
     const {
