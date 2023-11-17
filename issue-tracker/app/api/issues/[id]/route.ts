@@ -5,8 +5,8 @@ import {issueSchema} from "@/app/validationSchemas";
 export async function PATCH(request: NextRequest, { params }: {params: {id: string}}) {
     try {
         const body = await request.json();
-        const {title, description} = body;
-        const valid = issueSchema.safeParse({title, description});
+        const {title, description, status} = body;
+        const valid = issueSchema.safeParse({title, description, status});
 
         if (!valid.success) {
             return NextResponse.json({message: "Invalid data", errors: valid.error.format(), success: false}, {status: 400});
@@ -28,6 +28,7 @@ export async function PATCH(request: NextRequest, { params }: {params: {id: stri
             data: {
                 title,
                 description,
+                status
             }
         })
 

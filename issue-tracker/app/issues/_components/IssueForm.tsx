@@ -27,7 +27,7 @@ type IssueFormData = z.infer<typeof issueSchema>;
 
 async function IssueForm({issue}: { issue: Issue }) {
     const [loading, setLoading] = useState(false);
-    // const [selectedValue, setSelectedValue] = React.useState('1');
+    const [selectedValue, setSelectedValue] = React.useState('1');
 
     const [error, setError] = useState("");
     const router = useRouter();
@@ -41,6 +41,9 @@ async function IssueForm({issue}: { issue: Issue }) {
     });
 
     const onSubmit = handleSubmit(async (data) => {
+        // const status = ["OPEN", "IN_PROGRESS", "CLOSED"]
+        // @ts-ignore
+        // data.status = status[parseInt(selectedValue) - 1]
         try {
             setLoading(true);
             if (issue) {
@@ -50,6 +53,7 @@ async function IssueForm({issue}: { issue: Issue }) {
             }
             router.push("/issues");
             router.refresh();
+            setLoading(false);
         } catch (error) {
             setLoading(false);
             setError(
