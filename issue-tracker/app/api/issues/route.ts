@@ -1,9 +1,10 @@
 import {NextRequest, NextResponse} from "next/server";
 import client from "@/prisma/client";
 import {issueSchema} from "@/app/validationSchemas";
+import delay from "delay";
 
 export async function POST(request: NextRequest) {
-    // try {
+    try {
         const body = await request.json();
         const {title, description, status} = body;
         const valid = issueSchema.safeParse({title, description, status});
@@ -20,8 +21,8 @@ export async function POST(request: NextRequest) {
         })
 
         return NextResponse.json({message: "Issue created", data: newIssue, success: true}, {status: 200});
-    // } catch (error:any) {
-    //     return NextResponse.json({message: "Something went wrong", error: error.message, success: false}, {status: 500});
-    // }
+    } catch (error:any) {
+        return NextResponse.json({message: "Something went wrong", error: error.message, success: false}, {status: 500});
+    }
 
 }

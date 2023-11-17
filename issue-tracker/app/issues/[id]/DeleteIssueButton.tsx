@@ -2,10 +2,10 @@
 import { ArchiveIcon } from "@radix-ui/react-icons";
 import { Button, Flex } from "@radix-ui/themes";
 import { AlertDialog } from "@radix-ui/themes";
-import React, {useState} from "react";
-import prisma from "@/prisma/client"
+import React, { useState } from "react";
 import axios from 'axios'
-import {useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
+import Spinner from "@/app/components/Spinner";
 
 const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
 
@@ -31,9 +31,9 @@ const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
 
         <AlertDialog.Root>
             <AlertDialog.Trigger>
-                <Button color="red">
+                <Button disabled={loading} color="red">
                     <ArchiveIcon />
-                    Delete Issue
+                    Delete Issue {loading && <Spinner />}
                 </Button>
             </AlertDialog.Trigger>
             <AlertDialog.Content style={{ maxWidth: 450 }}>
