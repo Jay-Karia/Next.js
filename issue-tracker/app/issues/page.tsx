@@ -8,7 +8,7 @@ import IssueActions from '../components/IssueActions';
 import LinkComponent from '../components/LinkComponent';
 
 async function IssuesPage() {
-
+    
     const issues = await prisma.issue.findMany();
 
     return (

@@ -1,9 +1,9 @@
-import React from 'react'
+import IssueFormSkeleton from "@/app/issues/_components/IssueFormSkeleton";
 
-const IssueEditLoadingPage = () => {
-  return (
-    <div>IssueEditLoadingPage</div>
-  )
+function EditIssueLoadingPage() {
+    return (
+       <IssueFormSkeleton />
+    );
 }
 
-export default IssueEditLoadingPage
+export default EditIssueLoadingPage;
