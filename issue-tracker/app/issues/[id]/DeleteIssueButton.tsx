@@ -2,10 +2,30 @@
 import { ArchiveIcon } from "@radix-ui/react-icons";
 import { Button, Flex } from "@radix-ui/themes";
 import { AlertDialog } from "@radix-ui/themes";
-import React from "react";
+import React, {useState} from "react";
 import prisma from "@/prisma/client"
+import axios from 'axios'
+import {useRouter} from "next/navigation";
 
-const DeleteIssueButton = async ({ issueId }: { issueId: number }) => {
+const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
+
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+
+    const router = useRouter();
+    const handleSumbit = async () => {
+        try {
+            setLoading(true);
+            await axios.delete("/api/issues/" + issueId)
+            router.push("/issues")
+            router.refresh()
+        } catch (error) {
+            setLoading(false);
+            setError(
+                `An error occurred while deleting the issue.`
+            );
+        }
+    }
 
     return (
 
@@ -29,7 +49,7 @@ const DeleteIssueButton = async ({ issueId }: { issueId: number }) => {
                         </Button>
                     </AlertDialog.Cancel>
                     <AlertDialog.Action>
-                        <Button variant="solid" color="red">
+                        <Button variant="solid" onClick={handleSumbit} color="red">
                             Yes
                         </Button>
                     </AlertDialog.Action>

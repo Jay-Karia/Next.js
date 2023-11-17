@@ -37,3 +37,26 @@ export async function PATCH(request: NextRequest, { params }: {params: {id: stri
     }
 
 }
+
+export async function DELETE(request: NextRequest, { params }: {params: {id: string}}) {
+    try {
+        const issue = await client.issue.findUnique({
+            where: {
+                id: Number(params.id)
+            }
+        });
+        if (!issue) {
+            return NextResponse.json({message: "Issue not found", success: false}, {status: 404});
+        }
+
+        await client.issue.delete({
+            where: {
+                id: Number(params.id)
+            }
+        })
+
+        return NextResponse.json({message: "Issue deleted", success: true}, {status: 200});
+    } catch (error:any) {
+        return NextResponse.json({message: "Something went wrong", error: error.message, success: false}, {status: 500});
+    }
+}

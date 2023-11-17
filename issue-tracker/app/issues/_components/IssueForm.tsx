@@ -43,7 +43,6 @@ async function IssueForm({issue}: { issue: Issue }) {
     const onSubmit = handleSubmit(async (data) => {
         try {
             setLoading(true);
-            console.log(data)
             if (issue) {
                 await axios.patch("/api/issues/" + issue.id, data);
             } else {
@@ -52,7 +51,6 @@ async function IssueForm({issue}: { issue: Issue }) {
             router.push("/issues");
             router.refresh();
         } catch (error) {
-            console.log(error)
             setLoading(false);
             setError(
                 `An error occurred while ${
