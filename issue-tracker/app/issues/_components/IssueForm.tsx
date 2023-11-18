@@ -1,5 +1,5 @@
 "use client";
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {useForm, Controller} from "react-hook-form";
 import {useRouter} from "next/navigation";
 import {zodResolver} from "@hookform/resolvers/zod";
@@ -26,8 +26,9 @@ import StatusBadge from "@/app/components/StatusBadge";
 type IssueFormData = z.infer<typeof issueSchema>;
 
 async function IssueForm({issue}: { issue: Issue }) {
+    const status = ["OPEN", "IN_PROGRESS", "CLOSED"]
     const [loading, setLoading] = useState(false);
-    const [selectedValue, setSelectedValue] = React.useState('1');
+    const [selectedValue, setSelectedValue] = useState("1");
 
     const [error, setError] = useState("");
     const router = useRouter();
@@ -41,9 +42,9 @@ async function IssueForm({issue}: { issue: Issue }) {
     });
 
     const onSubmit = handleSubmit(async (data) => {
-        // const status = ["OPEN", "IN_PROGRESS", "CLOSED"]
+        const status = ["OPEN", "IN_PROGRESS", "CLOSED"]
         // @ts-ignore
-        // data.status = status[parseInt(selectedValue) - 1]
+        data.status = status[parseInt(selectedValue) - 1]
         try {
             setLoading(true);
             if (issue) {
@@ -63,6 +64,12 @@ async function IssueForm({issue}: { issue: Issue }) {
             );
         }
     });
+
+    useEffect(() => {
+        if (issue) {
+            setSelectedValue((status.indexOf(issue.status) + 1).toString())
+        }
+    }, [issue])
 
     return (
         <div className="space-y-3">
@@ -92,8 +99,8 @@ async function IssueForm({issue}: { issue: Issue }) {
                 <div>
                     <Text weight={"medium"}>Status</Text>
                     <RadioGroup.Root
-                        // value={selectedValue}
-                        // onValueChange={(value) => setSelectedValue(value)}
+                            value={selectedValue}
+                            onValueChange={(value) => setSelectedValue(value)}
                         defaultValue={"1"}
                         className={"statusCheck my-2"}
                         variant="surface"
