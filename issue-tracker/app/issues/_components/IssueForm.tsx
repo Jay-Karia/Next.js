@@ -22,10 +22,11 @@ import Spinner from "@/app/components/Spinner";
 import {Issue} from "@prisma/client";
 import SimpleMDE from "react-simplemde-editor";
 import StatusBadge from "@/app/components/StatusBadge";
+import delay from "delay";
 
 type IssueFormData = z.infer<typeof issueSchema>;
 
-async function IssueForm({issue}: { issue: Issue }) {
+async function IssueForm({issue}: { issue: Issue | null }) {
     const status = ["OPEN", "IN_PROGRESS", "CLOSED"]
     const [loading, setLoading] = useState(false);
     const [selectedValue, setSelectedValue] = useState("1");
@@ -52,6 +53,7 @@ async function IssueForm({issue}: { issue: Issue }) {
             } else {
                 await axios.post("/api/issues", data);
             }
+            await delay(1000);
             router.push("/issues");
             router.refresh();
             setLoading(false);

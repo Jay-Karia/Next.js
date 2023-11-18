@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import axios from 'axios'
 import { useRouter } from "next/navigation";
 import Spinner from "@/app/components/Spinner";
+import delay from "delay";
 
 const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
 
@@ -17,6 +18,7 @@ const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
         try {
             setLoading(true);
             await axios.delete("/api/issues/" + issueId)
+            await delay(1000);
             router.push("/issues")
             router.refresh()
             setLoading(false);

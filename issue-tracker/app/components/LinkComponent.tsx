@@ -4,14 +4,14 @@ import { Link as RadixLink } from "@radix-ui/themes";
 
 type Props = {
     href: string;
-    children: ReactNode;
+    title: string;
 };
 
 function LinkComponent(props: Props) {
     return (
         <div>
             <Link href={props.href} legacyBehavior passHref>
-                <RadixLink>{props.children}</RadixLink>
+                <RadixLink>{props.title}</RadixLink>
             </Link>
         </div>
     );

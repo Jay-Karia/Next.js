@@ -10,7 +10,7 @@ const IssueForm = dynamic(() => import("@/app/issues/_components/IssueForm"), {
 const NewIssuePage = () => {
     return (
         <div>
-            <IssueForm />
+            <IssueForm issue={null}/>
         </div>
     );
 };
