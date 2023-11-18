@@ -1,32 +1,23 @@
 "use client";
-import React, {useState, useEffect} from "react";
-import {useForm, Controller} from "react-hook-form";
-import {useRouter} from "next/navigation";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {issueSchema} from "@/app/validationSchemas";
-import {z} from "zod";
+import React, { useState, useEffect } from "react";
+import { useForm, Controller } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { issueSchema } from "@/app/validationSchemas";
+import { z } from "zod";
 import axios from "axios";
-import {
-    TextField,
-    Button,
-    Callout,
-    Text,
-    Grid,
-    Checkbox,
-    Flex,
-    RadioGroup,
-} from "@radix-ui/themes";
+import { TextField, Button, Callout, Text, Flex, RadioGroup } from "@radix-ui/themes";
 import "easymde/dist/easymde.min.css";
 import ErrorMessage from "@/app/components/ErrorMessage";
 import Spinner from "@/app/components/Spinner";
-import {Issue} from "@prisma/client";
+import { Issue } from "@prisma/client";
 import SimpleMDE from "react-simplemde-editor";
 import StatusBadge from "@/app/components/StatusBadge";
 import delay from "delay";
 
 type IssueFormData = z.infer<typeof issueSchema>;
 
-async function IssueForm({issue}: { issue: Issue | null }) {
+async function IssueForm({ issue }: { issue: Issue | null }) {
     const status = ["OPEN", "IN_PROGRESS", "CLOSED"]
     const [loading, setLoading] = useState(false);
     const [selectedValue, setSelectedValue] = useState("1");
@@ -37,7 +28,7 @@ async function IssueForm({issue}: { issue: Issue | null }) {
         register,
         handleSubmit,
         control,
-        formState: {errors},
+        formState: { errors },
     } = useForm<IssueFormData>({
         resolver: zodResolver(issueSchema),
     });
@@ -60,8 +51,7 @@ async function IssueForm({issue}: { issue: Issue | null }) {
         } catch (error) {
             setLoading(false);
             setError(
-                `An error occurred while ${
-                    issue ? "updating" : "creating"
+                `An error occurred while ${issue ? "updating" : "creating"
                 } the issue.`
             );
         }
@@ -91,7 +81,7 @@ async function IssueForm({issue}: { issue: Issue | null }) {
                 <ErrorMessage>{errors.title?.message}</ErrorMessage>
                 <Controller
                     defaultValue={issue?.description}
-                    render={({field}) => (
+                    render={({ field }) => (
                         <SimpleMDE placeholder={"Description"} {...field} />
                     )}
                     name={"description"}
@@ -101,23 +91,23 @@ async function IssueForm({issue}: { issue: Issue | null }) {
                 <div>
                     <Text weight={"medium"}>Status</Text>
                     <RadioGroup.Root
-                            value={selectedValue}
-                            onValueChange={(value) => setSelectedValue(value)}
+                        value={selectedValue}
+                        onValueChange={(value) => setSelectedValue(value)}
                         defaultValue={"1"}
                         className={"statusCheck my-2"}
                         variant="surface"
                         name={"status"}
                     >
-                        <Flex gap="2" direction="row">
+                        <Flex gap="2" className={"flex-col sm:flex-row"}>
                             <Text as="label" size="3">
                                 <Flex gap="2">
-                                    <RadioGroup.Item value="1"/>
-                                    <StatusBadge status={"OPEN"}/>
+                                    <RadioGroup.Item value="1" />
+                                    <StatusBadge status={"OPEN"} />
                                 </Flex>
                             </Text>
                             <Text as="label" size="3">
                                 <Flex gap="2">
-                                    <RadioGroup.Item value="2"/>
+                                    <RadioGroup.Item value="2" />
                                     <StatusBadge
                                         status={"IN_PROGRESS"}
                                     />
@@ -125,7 +115,7 @@ async function IssueForm({issue}: { issue: Issue | null }) {
                             </Text>
                             <Text as="label" size="3">
                                 <Flex gap="2">
-                                    <RadioGroup.Item value="3"/>
+                                    <RadioGroup.Item value="3" />
                                     <StatusBadge
                                         status={"CLOSED"}
                                     />
@@ -134,9 +124,9 @@ async function IssueForm({issue}: { issue: Issue | null }) {
                         </Flex>
                     </RadioGroup.Root>
                 </div>
-                <Button disabled={loading} style={{marginTop: "1rem"}}>
+                <Button disabled={loading} style={{ marginTop: "1rem" }}>
                     {issue ? "Update Issue" : "Create New Issue"}{" "}
-                    {loading && <Spinner/>}
+                    {loading && <Spinner />}
                 </Button>
             </form>
         </div>
