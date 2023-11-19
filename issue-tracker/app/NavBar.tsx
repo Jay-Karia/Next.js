@@ -8,7 +8,7 @@ import classnames from "classnames";
 import {useSession} from "next-auth/react"
 import {Box, DropdownMenu, Avatar} from "@radix-ui/themes"
 
-import Skeleton from "react-loading-skeleton"
+import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
 function NavBar() {
@@ -20,8 +20,6 @@ function NavBar() {
         {href: '/', label: 'Dashboard'},
         {href: '/issues', label: 'Issues'},
     ]
-
-    // if (status === "loading") return <Skeleton/>
 
     return (
         <nav className={"flex items-center space-x-6 h-14 border-b px-5 justify-between"}>
@@ -64,12 +62,12 @@ function NavBar() {
                         </DropdownMenu.Root>
                     </>
                 )}
-                {status === "loading" && (
-                    <>
-                        <Skeleton width={"50%"} height={"1.5rem"}/>
-                        "here"
-                    </>
-                )}
+                <div>
+                    {status === "loading" && (
+                        <Skeleton circle={true} height={"2rem"} width={"2rem"}/>
+                    )
+                    }
+                </div>
                 {status === "unauthenticated" && (
                     <Link href={"/api/auth/signin"}>Sign In</Link>
                 )}
