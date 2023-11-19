@@ -1,14 +1,15 @@
 "use client"
 
-import React, {useEffect} from 'react';
+import React from 'react';
 import Link from "next/link";
 import {FaBug} from "react-icons/fa6";
 import {usePathname} from "next/navigation";
 import classnames from "classnames";
 import {useSession} from "next-auth/react"
-import {Box, Button, DropdownMenu, Avatar} from "@radix-ui/themes"
-import {CaretDownIcon} from '@radix-ui/react-icons'
-import Image from "next/image"
+import {Box, DropdownMenu, Avatar} from "@radix-ui/themes"
+
+import Skeleton from "react-loading-skeleton"
+import "react-loading-skeleton/dist/skeleton.css";
 
 function NavBar() {
 
@@ -19,6 +20,8 @@ function NavBar() {
         {href: '/', label: 'Dashboard'},
         {href: '/issues', label: 'Issues'},
     ]
+
+    // if (status === "loading") return <Skeleton/>
 
     return (
         <nav className={"flex items-center space-x-6 h-14 border-b px-5 justify-between"}>
@@ -47,6 +50,7 @@ function NavBar() {
                                     size={"2"}
                                     radius={"full"}
                                     className={"cursor-pointer"}
+                                    referrerPolicy={"no-referrer"}
                                 />
                             </DropdownMenu.Trigger>
                             <DropdownMenu.Content>
@@ -58,6 +62,12 @@ function NavBar() {
                                 </Link>
                             </DropdownMenu.Content>
                         </DropdownMenu.Root>
+                    </>
+                )}
+                {status === "loading" && (
+                    <>
+                        <Skeleton width={"50%"} height={"1.5rem"}/>
+                        "here"
                     </>
                 )}
                 {status === "unauthenticated" && (
