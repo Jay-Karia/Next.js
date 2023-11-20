@@ -1,9 +1,19 @@
 import {NextRequest, NextResponse} from "next/server";
 import client from "@/prisma/client";
 import {issueSchema} from "@/app/validationSchemas";
+import {getServerSession} from "next-auth/next"
+import authOptions from "@/app/auth/authOptions";
+import checkSession from "@/app/auth/checkSession";
 
 export async function PATCH(request: NextRequest, { params }: {params: {id: string}}) {
     try {
+        if (!await checkSession(request)) {
+            return NextResponse.json({
+                message: "You are not authenticated",
+                success: false
+            }, {status: 401});
+        }
+
         const body = await request.json();
         const {title, description, status} = body;
         const valid = issueSchema.safeParse({title, description, status});
@@ -41,6 +51,13 @@ export async function PATCH(request: NextRequest, { params }: {params: {id: stri
 
 export async function DELETE(request: NextRequest, { params }: {params: {id: string}}) {
     try {
+        if (!await checkSession(request)) {
+            return NextResponse.json({
+                message: "You are not authenticated",
+                success: false
+            }, {status: 401});
+        }
+
         const issue = await client.issue.findUnique({
             where: {
                 id: Number(params.id)
