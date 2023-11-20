@@ -43,7 +43,7 @@ function NavBar() {
                         <DropdownMenu.Root>
                             <DropdownMenu.Trigger>
                                 <Avatar
-                                    src={session.user!.image!}
+                                    src={session?.user!.image!}
                                     fallback={"?"}
                                     size={"2"}
                                     radius={"full"}
@@ -52,7 +52,7 @@ function NavBar() {
                                 />
                             </DropdownMenu.Trigger>
                             <DropdownMenu.Content>
-                                <DropdownMenu.Item>{session.user!.email!}</DropdownMenu.Item>
+                                <DropdownMenu.Item>{session?.user!.email!}</DropdownMenu.Item>
                                 <Link href={"/api/auth/signout"}>
                                     <DropdownMenu.Item>
                                         Sign Out
