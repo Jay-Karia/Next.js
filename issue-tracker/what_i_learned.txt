@@ -1,0 +1,6 @@
+This is what I learned while building this app
+1) Prisma + MySQL
+2) Next.js (More Concepts)
+3) NextAuth
+4) How to write professional and clean code
+5) Zod (Schema Validation)
