@@ -1,20 +1,22 @@
 "use client"
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {Select} from "@radix-ui/themes"
 import axios from "axios";
+import {useQuery} from "@tanstack/react-query";
+import Skeleton from "react-loading-skeleton";
 
 function AssigneeSelector() {
-    const [users, setUsers] = useState([])
+    const {data: users, error, isLoading} = useQuery({
+        queryKey: ['users'],
+        queryFn: () => axios.get("/api/users").then(res=>res.data),
+        staleTime: 1000 * 60 * 5,
+        retry: 3,
+    })
 
-    useEffect(() => {
-        const getUsers = async () => {
-            const {data} = await axios.get('/api/users');
-            // @ts-ignore
-            setUsers(data);
-        };
-        getUsers();
-    }, []);
-
+    if (isLoading) return <div className={"flex items-center justify-center"}>
+        <Skeleton circle={false} height={"2rem"} width={"140px"}/>
+    </div>
+    if (error) return null
 
     return (
         <>
@@ -23,10 +25,11 @@ function AssigneeSelector() {
                 <Select.Content>
                     <Select.Group>
                         <Select.Label>Select Assignee</Select.Label>
-                        {users.map(({id, name}) => {
+                        {/* @ts-ignore */}
+                        {users.map(user => {
                             return (
-                                <Select.Item key={id} value={id}>
-                                    {name}
+                                <Select.Item key={user.id} value={user.id}>
+                                    {user.name}
                                 </Select.Item>
                             )
                         })}
