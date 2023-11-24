@@ -1,12 +1,13 @@
 "use client";
 import React from "react";
-import { Select } from "@radix-ui/themes";
+import {Select} from "@radix-ui/themes";
 import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
+import {useQuery} from "@tanstack/react-query";
 import Skeleton from "react-loading-skeleton";
-import { Issue } from "@prisma/client";
+import {Issue} from "@prisma/client";
+import {Toaster, toast} from "react-hot-toast";
 
-function AssigneeSelector({ issue }: { issue: Issue }) {
+function AssigneeSelector({issue}: { issue: Issue }) {
     const {
         data: users,
         error,
@@ -21,7 +22,7 @@ function AssigneeSelector({ issue }: { issue: Issue }) {
     if (isLoading)
         return (
             <div className={"flex items-center justify-center"}>
-                <Skeleton circle={false} height={"2rem"} width={"140px"} />
+                <Skeleton circle={false} height={"2rem"} width={"140px"}/>
             </div>
         );
     if (error) return null;
@@ -30,13 +31,18 @@ function AssigneeSelector({ issue }: { issue: Issue }) {
         <>
             <Select.Root
                 defaultValue={issue.assigneeId || ""}
-                onValueChange={(userId) => {
-                    axios.patch(`/api/issues/${issue.id}`, {
-                        assigneeId: userId || null,
-                    });
+                onValueChange={async (userId) => {
+                    try {
+                        await axios.patch(`/api/issues/${issue.id}`, {
+                            assigneeId: userId || null,
+                        });
+                        toast.success("Assignee updated");
+                    } catch (error) {
+                        toast.error("Something went wrong");
+                    }
                 }}
             >
-                <Select.Trigger placeholder={"Select Assignee"} />
+                <Select.Trigger placeholder={"Select Assignee"}/>
                 <Select.Content>
                     <Select.Group>
                         <Select.Label>Select Assignee</Select.Label>
@@ -53,6 +59,7 @@ function AssigneeSelector({ issue }: { issue: Issue }) {
                     </Select.Group>
                 </Select.Content>
             </Select.Root>
+            <Toaster/>
         </>
     );
 }
