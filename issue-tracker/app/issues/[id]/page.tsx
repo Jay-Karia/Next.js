@@ -38,7 +38,7 @@ async function IssueDetailPage({params}: Props) {
             </Box>
             <Box>
                 <Flex gap="4" className={"sm:flex-row flex-col"}>
-                    <AssigneeSelector/>
+                    <AssigneeSelector issue={issue}/>
                     <EditIssueButton issueId={issue.id}/>
                     <DeleteIssueButton issueId={issue.id}/>
                 </Flex>
