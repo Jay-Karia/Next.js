@@ -1,19 +1,24 @@
 import React from 'react';
-import { Button } from '@radix-ui/themes';
+import {Button} from '@radix-ui/themes';
 import Link from 'next/link';
 import prisma from "@/prisma/client";
-import { Table } from "@radix-ui/themes"
+import {Table} from "@radix-ui/themes"
 import StatusBadge from '../components/StatusBadge';
 import IssueActions from '../components/IssueActions';
 import LinkComponent from '../components/LinkComponent';
+import {Status} from "@prisma/client";
 
-async function IssuesPage() {
+async function IssuesPage({searchParams}: { searchParams: {status: Status} }) {
 
-    const issues = await prisma.issue.findMany();
+    const issues = await prisma.issue.findMany({
+        where: {
+            status: searchParams.status
+        }
+    });
 
     return (
         <div>
-            <IssueActions />
+            <IssueActions/>
             <Table.Root variant='surface'>
                 <Table.Header>
                     <Table.Row>
@@ -29,16 +34,18 @@ async function IssuesPage() {
                             {issues.map((issue) => (
                                 <Table.Row key={issue.id}>
                                     <Table.Cell>
-                                        <LinkComponent href={`/issues/${issue.id}`} title={String(issue.title)} />
+                                        <LinkComponent href={`/issues/${issue.id}`} title={String(issue.title)}/>
                                         <div className="block md:hidden">
-                                            <StatusBadge status={issue.status} />
+                                            <StatusBadge status={issue.status}/>
                                         </div>
                                     </Table.Cell>
                                     <Table.Cell className={"hidden md:table-cell"}>
-                                        <StatusBadge status={issue.status} />
+                                        <StatusBadge status={issue.status}/>
                                     </Table.Cell>
-                                    <Table.Cell className={"hidden md:table-cell"}>{issue.createdAt.toDateString()}</Table.Cell>
-                                    <Table.Cell className={"hidden md:table-cell"}>{issue.updatedAt.toDateString() + " - " + issue.updatedAt.toLocaleTimeString()}</Table.Cell>
+                                    <Table.Cell
+                                        className={"hidden md:table-cell"}>{issue.createdAt.toDateString()}</Table.Cell>
+                                    <Table.Cell
+                                        className={"hidden md:table-cell"}>{issue.updatedAt.toDateString() + " - " + issue.updatedAt.toLocaleTimeString()}</Table.Cell>
                                 </Table.Row>
                             ))}
                         </>
