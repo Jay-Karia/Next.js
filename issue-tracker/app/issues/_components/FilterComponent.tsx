@@ -2,10 +2,11 @@
 import React from "react";
 import {Select} from "@radix-ui/themes";
 import {Status} from "@prisma/client";
-import {useRouter} from "next/navigation";
+import {useRouter, useSearchParams} from "next/navigation";
 
 function FilterComponent() {
     const router = useRouter();
+    const searchParams = useSearchParams();
 
     const statuses: { label: string; value?: Status }[] = [
         {label: "All"},
