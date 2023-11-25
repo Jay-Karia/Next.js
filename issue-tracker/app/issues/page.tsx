@@ -6,9 +6,10 @@ import {Table} from "@radix-ui/themes"
 import StatusBadge from '../components/StatusBadge';
 import IssueActions from '../components/IssueActions';
 import LinkComponent from '../components/LinkComponent';
-import {Status} from "@prisma/client";
+import {Status, Issue} from "@prisma/client";
+import {ArrowUpIcon} from "@radix-ui/react-icons"
 
-async function IssuesPage({searchParams}: { searchParams: {status: Status} }) {
+async function IssuesPage({searchParams}: { searchParams: {status: Status, orderBy: keyof Issue} }) {
 
     const issues = await prisma.issue.findMany({
         where: {
@@ -16,16 +17,29 @@ async function IssuesPage({searchParams}: { searchParams: {status: Status} }) {
         }
     });
 
+    const columnHeaders: {
+        label: string,
+        value: keyof Issue,
+        className?: string
+    }[] = [
+        { label: "Issue", value:"title", className: ""},
+        { label: "Status", value:"status", className: "hidden md:table-cell"},
+        { label: "Created At", value:"createdAt", className: "hidden md:table-cell"},
+        { label: "Updated At", value:"updatedAt", className: "hidden md:table-cell"},
+    ]
+
     return (
         <div>
             <IssueActions/>
             <Table.Root variant='surface'>
                 <Table.Header>
                     <Table.Row>
-                        <Table.ColumnHeaderCell>Issue</Table.ColumnHeaderCell>
-                        <Table.ColumnHeaderCell className={"hidden md:table-cell"}>Status</Table.ColumnHeaderCell>
-                        <Table.ColumnHeaderCell className={"hidden md:table-cell"}>Created At</Table.ColumnHeaderCell>
-                        <Table.ColumnHeaderCell className={"hidden md:table-cell"}>Updated At</Table.ColumnHeaderCell>
+                        {columnHeaders.map((columnHeader) => (
+                            <Table.ColumnHeaderCell key={columnHeader.value} className={columnHeader.className}>
+                                <Link href={{query: { ...searchParams, orderBy: columnHeader.value}}}>{columnHeader.label}</Link>
+                                {columnHeader.value === searchParams.orderBy && <ArrowUpIcon className={"inline w-3 h-3"}/>}
+                            </Table.ColumnHeaderCell>
+                        ))}
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
