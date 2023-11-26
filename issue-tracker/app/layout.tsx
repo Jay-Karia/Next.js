@@ -15,6 +15,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
     title: "Issue Tracker",
+    description: "View a summary of project issues",
 };
 
 export default function RootLayout({
